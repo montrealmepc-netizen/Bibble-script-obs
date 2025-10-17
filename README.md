@@ -1,64 +1,79 @@
-# Bible Mepc montreal V1.0 - OBS Studio Script
+# OBS Bible Presenter 2.0
 
-A powerful Python script for OBS Studio designed to display and manage Bible verses for live church services, streams, or recordings. This tool provides a comprehensive control panel to navigate, display, and even live-edit scripture directly within OBS.
+A powerful Python script for OBS Studio designed to display Bible verses and their references seamlessly during live streams or recordings. This tool sends the verse text and the reference to two separate OBS text sources, allowing for independent styling and layout. It features a modern user interface, robust search capabilities, favorites, history, and hotkey support for efficient operation.
 
-This script was inspired by and developed for the production team at [MEPC Montreal](https://www.mepcmontreal.ca).
+Inspired by and developed for MEPC Montreal.
 
-![Script Navigator Screenshot](https://i.imgur.com/your-image-link-here.png)  ---
+## ✨ Features
 
-## ✨ Key Features
+* **Dual Source Output**: Sends the verse text and its reference (e.g., "John 3:16") to two different text sources in OBS for maximum layout flexibility.
+* **Modern UI**: An intuitive navigator window built with Tkinter and ttkthemes for easy management.
+* **Advanced Search**: Quickly find passages by reference (e.g., "1 Cor 13:4") or by keyword search within the text.
+* **Favorites & History**: Save frequently used verses to your favorites and access your recent searches instantly.
+* **Hotkey Support**: Navigate between verses and text blocks directly from OBS using configurable hotkeys.
+* **Live Verse Editor**: Correct typos or reformat verses on the fly. Changes are saved automatically to the source XML file.
+* **Multi-Bible Support**: Load multiple Bible versions (in OSIS XML format) and switch between them easily.
 
-* **📖 Full Bible Navigation:** Quickly load an entire Bible from a single OSIS-formatted XML file. Easily navigate to any book, chapter, and verse through a user-friendly control panel.
-* **✍️ Live Text Editing:** Any corrections or modifications made to the **currently displayed verse** are instantly reflected in the OBS GDI+ text source, perfect for on-the-fly typo fixes.
-* **👀 Next Verse Preview & Preparation:** See and edit the upcoming verse in a separate editor. Your edits are automatically applied when you navigate to that verse, allowing for seamless transitions.
-* **📄 Block Display:** Long verses are automatically broken down into readable "pages" or "blocks" (default is 5 lines) to avoid overwhelming the screen.
-* **🖱️ Intuitive Controls:** Navigate between pages and verses with "Next" and "Previous" buttons or configurable hotkeys.
-* **💾 Save Changes:** Permanently save your live edits back to the XML file, ensuring your corrections are kept for future use.
+## ⚙️ Prerequisites
 
-## ✅ Prerequisites
+Before you begin, ensure you have the following installed:
 
-1.  **OBS Studio:** Version 27 or newer is recommended.
-2.  **Python 3:** A working Python installation configured for OBS Studio scripts.
-3.  **GDI+ Text Source:** You must have a "Text (GDI+)" source created in your OBS scene. This is the source the script will control.
+1.  **[OBS Studio](https://obsproject.com/)**: The latest version is recommended.
+2.  **[Python](https://www.python.org/downloads/)**: The script requires a specific version of Python that matches your OBS installation.
+    * To find the required version, open OBS and go to **Tools -> Scripts -> Python Settings**. It will specify the exact version you need to download.
+    * **Crucial for Windows users**: During Python installation, make sure to check the box that says **"Add Python to PATH"**.
+3.  **`ttkthemes` Library**: A Python package for styling the user interface.
+4.  **Bible Files**: The script requires Bible texts in the **OSIS XML** format.
 
-## ⚙️ Installation & Setup
+## 🚀 Installation & Configuration
 
-1.  **Download the Bible XML File:**
-    * This script requires a Bible in the **OSIS XML format**.
-    * You can download the recommended **Louis Segond 1910 (French)** version from this repository:
-    * **[Download `fren.xml` Here](https://github.com/montrealmepc-netizen/biblefr)**
+Follow these steps to get the script running in OBS.
 
-2.  **Install the Script in OBS:**
-    * In OBS Studio, go to **Tools > Scripts**.
-    * Click the **"+"** button in the bottom left corner and select the `bible_mepc_montreal_v1.py` file.
+### Step 1: Install Python Dependencies
 
-3.  **Configure the Script:**
-    * With the script selected, you will see its properties on the right.
-    * **Bible File (.xml):** Click "Browse" and select the `fren.xml` file you downloaded.
-    * **Text Source (GDI+):** Select the GDI+ text source you created in your scene from the dropdown menu.
+Open a terminal (Command Prompt on Windows, Terminal on macOS/Linux) and run the following command to install the required library:
 
-![Script Settings Screenshot](https://i.imgur.com/your-settings-screenshot.png) ## 🕹️ How to Use
+```bash
+pip install ttkthemes
+```
 
-1.  **Open the Navigator:**
-    * In the Scripts window, click the **"Open Navigator"** button.
+### Step 2: Prepare Bible Files
 
-2.  **Navigate Scripture:**
-    * Use the **Book**, **Chapter**, and **Verse** dropdown menus to select a passage. The text will immediately appear in your OBS text source.
+1.  Download compatible Bible versions from the [Compatible Bibles Repository](https://github.com/montrealmepc-netizen/Compatible-bibles).
+2.  Create a folder on your computer (e.g., `C:\Bibles` or `Documents/Bibles`).
+3.  Extract and place all the `.xml` Bible files directly into this folder.
 
-3.  **Control Display:**
-    * Use the **`<< Previous`** and **`Next >>`** buttons below the main editor to navigate between pages of a long verse, or to move to the previous/next verse.
-    * The **`Clear Display`** button will empty the text source.
+### Step 3: Configure OBS Studio
 
-4.  **Live Editing:**
-    * **Current Verse:** Simply type in the top editor box. The text in OBS will update as you type. Click **`Save Current Verse`** to make the change permanent in your XML file.
-    * **Next Verse:** Type in the bottom editor box to prepare the upcoming verse. Your changes will be applied automatically when you navigate to it. Click **`Save Next Verse`** to save these changes to the XML file ahead of time.
+1.  **Save the Script**: Save the script code as a Python file (e.g., `bible_presenter.py`).
+2.  **Create Text Sources**: In your desired OBS scene, add two **Text (GDI+)** sources:
+    * One for the verse text (e.g., name it `Verse Text`).
+    * One for the reference (e.g., name it `Verse Reference`).
+3.  **Load the Script**:
+    * In OBS, go to **Tools -> Scripts**.
+    * Click the `+` button and add the `bible_presenter.py` file.
+4.  **Set Script Properties**:
+    * With the script selected, configure the options on the right:
+    * **Bible Folder**: Click `Browse` and select the folder where you saved your `.xml` Bible files.
+    * **Main Text Source (Verse)**: Select your `Verse Text` source from the dropdown menu.
+    * **Reference Text Source (Optional)**: Select your `Verse Reference` source.
+5.  **Launch the Navigator**: Click the **"Open Navigator"** button in the script properties to launch the control window.
 
-## ⌨️ Hotkeys
+## 📖 Usage
 
-You can set custom hotkeys for faster navigation:
-* Go to **File > Settings > Hotkeys**.
-* Search for "Bible" to find the "Next" and "Previous" actions and assign your preferred keys.
+The **Navigator Window** is your main control center.
 
-## 📜 License
+* **Navigation Tab**: Select the Bible version, book, chapter, and verse using the dropdown menus.
+* **Search Tab**: Type a reference or keyword to find verses. Double-click a result to display it.
+* **Favorites Tab**: Access your saved verses. Double-click to display one.
+* **Live Verse Editor**: The currently displayed verse appears here. You can edit it, and the changes will reflect in OBS and be saved to the XML file after a brief delay.
+* **Navigation Buttons**: Use the `<< Previous`, `Next >>`, and `Clear` buttons to control the output.
 
-This project is licensed under the MIT License. See the [LICENSE.md](LICENSE.md) file for details.
+### Hotkeys
+
+You can set the following hotkeys in **OBS -> Settings -> Hotkeys**:
+
+* `Bible: Next Block`: Displays the next paragraph/block of the current verse.
+* `Bible: Previous Block`: Displays the previous paragraph/block.
+* `Bible: Next Verse`: Jumps to the next verse.
+* `Bible: Previous Verse`: Jumps to the previous verse.
