@@ -1,79 +1,117 @@
-# Présentateur Biblique pour OBS 2.0
+# OBS Bible Presenter 3.0
 
-Un script Python puissant pour OBS Studio, conçu pour afficher des versets bibliques et leurs références de manière fluide pendant des diffusions en direct ou des enregistrements. Cet outil envoie le texte du verset et la référence à deux sources de texte OBS distinctes, permettant une mise en page et un style indépendants. Il est doté d'une interface utilisateur moderne, de capacités de recherche robustes, de favoris, d'un historique et d'une prise en charge des raccourcis clavier pour une utilisation efficace.
+Un script Python complet pour afficher des versets bibliques dans OBS Studio, doté d'une interface moderne, d'une mise en forme automatique du texte et d'une intégration directe avec les sources de texte OBS. Inspiré par et développé pour MEPC Montréal.
 
-Inspiré par et développé pour MEPC Montréal.
+[Image de l'interface OBS Bible Presenter]
 
-## ✨ Fonctionnalités
+## Fonctionnalités ✨
 
-* **Sortie sur Deux Sources**: Envoie le texte du verset et sa référence (ex: "Jean 3:16") à deux sources de texte différentes dans OBS pour une flexibilité maximale de mise en page.
-* **Interface Utilisateur Moderne**: Une fenêtre de navigation intuitive construite avec Tkinter et ttkthemes pour une gestion facile.
-* **Recherche Avancée**: Trouvez rapidement des passages par référence (ex: "1 Cor 13:4") ou par recherche de mots-clés dans le texte.
-* **Favoris et Historique**: Enregistrez les versets fréquemment utilisés dans vos favoris et accédez instantanément à vos recherches récentes.
-* **Support des Raccourcis Clavier**: Naviguez entre les versets et les blocs de texte directement depuis OBS à l'aide de raccourcis configurables.
-* **Éditeur de Versets en Direct**: Corrigez les fautes de frappe ou reformatez les versets à la volée. Les modifications sont automatiquement sauvegardées dans le fichier XML source.
-* **Support Multi-Bibles**: Chargez plusieurs versions de la Bible (au format OSIS XML) et passez facilement de l'une à l'autre.
+* **Interface Moderne :** Navigation intuitive utilisant CustomTkinter.
+* **Gestion des Versions :** Chargez plusieurs versions de la Bible à partir de fichiers XML (format OSIS recommandé).
+* **Navigation :** Parcourez facilement les Livres, Chapitres et Versets.
+* **Recherche :**
+    * Recherche par référence (ex: "Jean 3:16", "1 Cor 13:4").
+    * Recherche par mot-clé dans la version active de la Bible.
+    * Reconnaissance des noms de livres en plusieurs langues (Français, Anglais, Kirundi inclus).
+    * Historique des recherches.
+* **Favoris :** Enregistrez et accédez rapidement à vos versets préférés.
+* **Intégration OBS :**
+    * Met à jour directement les Sources de Texte (GDI+ ou Freetype 2) désignées dans OBS.
+    * Contrôle la visibilité simultanée du texte principal ET de la référence.
+* **Mise en Forme Automatique du Texte :**
+    * Retour à la ligne automatique basé sur un nombre maximum de **mots par ligne**.
+    * Division automatique des longs versets en blocs gérables basé sur un nombre maximum de **lignes par bloc**.
+    * Limites configurables via l'onglet Paramètres.
+* **Éditeur Live :** Modifiez directement le verset actuel ; les changements sont reflétés instantanément dans OBS.
+* **Aperçu du Verset Suivant :** Visualisez et modifiez le verset à venir.
+* **Paramètres Personnalisables :**
+    * Sélection du thème : Clair/Sombre/Système.
+    * Modèle d'affichage de la référence personnalisable.
+    * Limites de mise en forme du texte ajustables.
+* **Raccourcis Claviers :** Contrôlez la navigation bloc/verset directement depuis les raccourcis OBS.
 
-## ⚙️ Prérequis
+---
 
-Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
+## Prérequis 📝
 
-1.  **[OBS Studio](https://obsproject.com/)**: La dernière version est recommandée.
-2.  **[Python](https://www.python.org/downloads/)**: Le script nécessite une version spécifique de Python qui correspond à votre installation d'OBS.
-    * Pour trouver la version requise, ouvrez OBS et allez dans **Outils -> Scripts -> Paramètres Python**. La version exacte dont vous avez besoin y sera spécifiée.
-    * **Crucial pour les utilisateurs de Windows** : Pendant l'installation de Python, assurez-vous de cocher la case **"Add Python to PATH"**.
-3.  **Bibliothèque `ttkthemes`**: Un paquet Python pour le style de l'interface utilisateur.
-4.  **Fichiers de la Bible**: Le script nécessite les textes bibliques au format **OSIS XML**.
+1.  **OBS Studio :** Assurez-vous d'avoir installé OBS Studio (testé avec les versions récentes).
+2.  **Python :** OBS Studio inclut généralement un environnement Python compatible. Cependant, si vous rencontrez des problèmes, l'installation d'une version autonome de Python (ex: 3.9, 3.10) peut être nécessaire pour installer des bibliothèques. Assurez-vous qu'OBS est configuré pour utiliser la bonne installation Python si vous en avez plusieurs.
+3.  **Bibliothèque Python :** Vous avez besoin de `customtkinter`.
 
-## 🚀 Installation et Configuration
+---
 
-Suivez ces étapes pour faire fonctionner le script dans OBS.
+## Guide d'Installation 🛠️
 
-### Étape 1 : Installer les Dépendances Python
+1.  **Télécharger le Script :** Téléchargez le fichier `obs_bible_presenter_3.0.py` depuis ce dépôt.
+2.  **Installer la Bibliothèque :** Ouvrez l'Invite de Commandes (cmd) ou le Terminal de votre système et exécutez :
+    ```bash
+    pip install customtkinter
+    ```
+    * *Note :* Si vous avez plusieurs versions de Python, assurez-vous d'utiliser le `pip` associé à l'environnement Python utilisé par OBS (ex: `python -m pip install customtkinter` ou `pip3 install customtkinter`).
+3.  **Ajouter le Script à OBS :**
+    * Ouvrez OBS Studio.
+    * Allez dans `Outils` > `Scripts`.
+    * Cliquez sur le bouton `+` en bas à gauche.
+    * Naviguez jusqu'au fichier `obs_bible_presenter_3.0.py` téléchargé et sélectionnez-le.
+4.  **Configurer les Paramètres du Script dans OBS :**
+    * **Dossier des Bibles (.xml) :** Cliquez sur `Parcourir` et sélectionnez le dossier contenant vos fichiers XML de Bibles (format OSIS préféré).
+    * **Source Texte Principal :** Sélectionnez la Source de Texte OBS (GDI+ ou Freetype 2) où le texte principal du verset doit apparaître.
+    * **Source Texte Référence :** Sélectionnez la Source de Texte OBS où la référence (ex: "Jean 3:16") doit apparaître.
+    * Fermez la fenêtre des Scripts.
 
-Ouvrez un terminal (Invite de commandes sous Windows, Terminal sous macOS/Linux) et exécutez la commande suivante pour installer la bibliothèque requise :
+---
 
-```bash
-pip install ttkthemes
-```
+## Guide d'Utilisation 📖
 
-### Étape 2 : Préparer les Fichiers de la Bible
+1.  **Ouvrir le Navigateur :** Retournez dans `Outils` > `Scripts`. Sélectionnez le script "OBS Bible Presenter 3.0" et cliquez sur le bouton `Ouvrir le Navigateur 3.0`.
+2.  **Sélectionner la Bible :** Choisissez la version de la Bible souhaitée dans la liste déroulante en haut à gauche.
+3.  **Naviguer :**
+    * Cliquez sur un nom de Livre dans la barre latérale gauche.
+    * Sélectionnez le Chapitre et le Verset dans les listes déroulantes au-dessus de la liste des livres.
+    * Le verset sélectionné apparaîtra dans l'onglet "Éditeur" et mettra à jour les sources de texte OBS.
+4.  **Afficher les Blocs :** Si un verset est divisé en plusieurs blocs (à cause des paramètres de formatage), utilisez les boutons `<< Préc.` et `Suiv. >>` ou les raccourcis configurés pour naviguer entre eux.
+5.  **Onglet Recherche:**
+    * Entrez une référence (ex: `Gen 1:1`) ou des mots-clés (ex: `amour jamais échoue`).
+    * Appuyez sur Entrée ou cliquez sur `Rechercher`.
+    * Double-cliquez sur un résultat pour l'afficher.
+6.  **Onglet Favoris (⭐ Favoris):**
+    * Pendant l'affichage d'un verset dans l'onglet Éditeur, cliquez sur le bouton `⭐ Favoris` pour l'enregistrer.
+    * Allez dans l'onglet "⭐ Favoris" pour voir les favoris enregistrés.
+    * Double-cliquez sur un favori pour le charger.
+    * Sélectionnez un favori et cliquez sur `Retirer le favori sélectionné` pour le supprimer.
+7.  **Onglet Éditeur :**
+    * **Éditeur Principal :** Affiche le verset/bloc actuel, formaté automatiquement. Vous pouvez modifier manuellement le texte ici pour des ajustements temporaires ; ces modifications apparaîtront immédiatement dans OBS. **Note :** Quitter et revenir au verset réappliquera le formatage automatique, sauf si la modification a été faite dans l'aperçu pour le verset *suivant*.
+    * **Aperçu Verset Suivant :** Affiche le verset *suivant* dans le chapitre, également formaté automatiquement. Vous pouvez modifier ce texte *avant* d'y naviguer. Ces modifications **persisteront** lorsque vous naviguerez vers ce verset.
+    * **Vider :** Efface les sources de texte dans OBS.
+8.  **Bascule "Show Text / Ref" :** Utilisez l'interrupteur en haut à droite de la fenêtre du Navigateur pour afficher ou masquer simultanément les sources de texte principal et de référence dans OBS.
 
-1.  Téléchargez des versions de la Bible compatibles depuis le [dépôt de Bibles Compatibles](https://github.com/montrealmepc-netizen/Compatible-bibles).
-2.  Créez un dossier sur votre ordinateur (par exemple, `C:\Bibles` ou `Documents/Bibles`).
-3.  Extrayez et placez tous les fichiers `.xml` de la Bible directement dans ce dossier.
+---
 
-### Étape 3 : Configurer OBS Studio
+## Configuration (Onglet Paramètres) ⚙️
 
-1.  **Enregistrer le Script** : Enregistrez le code du script dans un fichier Python (par exemple, `bible_presenter.py`).
-2.  **Créer les Sources de Texte** : Dans la scène OBS de votre choix, ajoutez deux sources de type **Texte (GDI+)** :
-    * Une pour le texte du verset (nommez-la par exemple `Texte Verset`).
-    * Une pour la référence (nommez-la par exemple `Référence Verset`).
-3.  **Charger le Script** :
-    * Dans OBS, allez dans **Outils -> Scripts**.
-    * Cliquez sur le bouton `+` et ajoutez le fichier `bible_presenter.py`.
-4.  **Définir les Propriétés du Script** :
-    * Avec le script sélectionné, configurez les options à droite :
-    * **Bible Folder** : Cliquez sur `Parcourir` et sélectionnez le dossier où vous avez enregistré vos fichiers `.xml`.
-    * **Main Text Source (Verse)** : Sélectionnez votre source `Texte Verset` dans le menu déroulant.
-    * **Reference Text Source (Optional)** : Sélectionnez votre source `Référence Verset`.
-5.  **Lancer le Navigateur** : Cliquez sur le bouton **"Open Navigator"** dans les propriétés du script pour lancer la fenêtre de contrôle.
+* **Thème de l'application :** Choisissez Clair, Sombre, ou le défaut Système.
+* **Modèle de référence :** Personnalisez l'affichage de la référence en utilisant `{livre}`, `{chapitre}` et `{verset}`.
+* **Mots Max par Ligne :** Définissez le nombre maximum de mots avant un retour à la ligne automatique (0 pour désactiver).
+* **Lignes Max par Bloc :** Définissez le nombre maximum de lignes avant une division automatique en un nouveau bloc d'affichage (0 pour désactiver).
+* Cliquez sur `Enregistrer les paramètres` pour appliquer les changements. Modifier les paramètres de formatage reformatera automatiquement le verset actuellement affiché.
 
-## 📖 Utilisation
+---
 
-La **Fenêtre de Navigation** est votre centre de contrôle principal.
+## Raccourcis Claviers ⌨️
 
-* **Onglet Navigation** : Sélectionnez la version de la Bible, le livre, le chapitre et le verset à l'aide des menus déroulants.
-* **Onglet Recherche** : Tapez une référence ou un mot-clé pour trouver des versets. Double-cliquez sur un résultat pour l'afficher.
-* **Onglet Favoris** : Accédez à vos versets enregistrés. Double-cliquez pour en afficher un.
-* **Éditeur de Versets en Direct** : Le verset actuellement affiché apparaît ici. Vous pouvez le modifier, et les changements seront visibles dans OBS et enregistrés dans le fichier XML après un court délai.
-* **Boutons de Navigation** : Utilisez les boutons `<< Précédent`, `Suivant >>` et `Effacer` pour contrôler l'affichage.
+Configurez-les dans OBS via `Fichier` > `Paramètres` > `Raccourcis clavier`. Cherchez "Bible":
 
-### Raccourcis Clavier
+* **Bible: Bloc Suivant :** Affiche le bloc suivant du verset actuel.
+* **Bible: Bloc Précédent :** Affiche le bloc précédent du verset actuel.
+* **Bible: Verset Suivant :** Charge le verset suivant dans le chapitre.
+* **Bible: Verset Précédent :** Charge le verset précédent dans le chapitre.
 
-Vous pouvez configurer les raccourcis suivants dans **OBS -> Paramètres -> Raccourcis clavier** :
+---
 
-* `Bible: Next Block` : Affiche le paragraphe/bloc suivant du verset actuel.
-* `Bible: Previous Block` : Affiche le paragraphe/bloc précédent.
-* `Bible: Next Verse` : Passe au verset suivant.
-* `Bible: Previous Verse` : Passe au verset précédent.
+## Dépannage 🤔
+
+* **Bibliothèque Non Trouvée :** Assurez-vous que `customtkinter` est correctement installé dans l'environnement Python utilisé par OBS. Exécutez `pip show customtkinter` dans votre terminal pour vérifier.
+* **Erreur de Script au Chargement :** Vérifiez les fichiers journaux d'OBS (`Aide` > `Fichiers journaux` > `Afficher les fichiers journaux`) pour des erreurs Python. Souvent lié à des bibliothèques manquantes ou des erreurs de syntaxe dans les modifications.
+* **Aucune Source de Texte Listée :** Assurez-vous d'avoir créé des sources Texte (GDI+ / Freetype 2) dans votre scène OBS *avant* de configurer le script.
+* **Texte Non Mis à Jour :** Vérifiez que les bonnes sources de texte sont sélectionnées dans les paramètres du script. Vérifiez si les sources sont visibles dans votre scène OBS.
+* **Formatage Ne Fonctionne Pas :** Assurez-vous que les paramètres "Mots Max" et "Lignes Max" sont supérieurs à 0. Enregistrez les paramètres après modification.
